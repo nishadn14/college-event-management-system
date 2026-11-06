@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block content %}
+<div class="card"><h2>My Registrations</h2>
+<div class="table-wrap"><table>
+  <tr><th>Event</th><th>Category</th><th>Date</th><th>Time</th><th>Venue</th><th></th></tr>
+  {% for e in events %}
+  <tr><td>{{ e.title }}</td><td>{{ e.category }}</td><td>{{ e.event_date }}</td><td>{{ e.event_time }}</td><td>{{ e.venue }}</td>
+    <td>{% if e.event_date >= today %}
+      <form method="post" action="{{ url_for('cancel_registration', event_id=e.id) }}">
+        <button class="danger" style="margin:0">Cancel</button></form>
+      {% else %}<span class="badge past">Completed</span>{% endif %}</td></tr>
+  {% else %}<tr><td colspan="6">You have not registered for any events yet.</td></tr>{% endfor %}
+</table></div></div>
+{% endblock %}

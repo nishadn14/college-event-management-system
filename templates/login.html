@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block title %}Login{% endblock %}
+{% block content %}
+<div class="card narrow">
+  <h2>Login</h2>
+  <form method="post">
+    <label>USN / Username</label><input name="usn" required>
+    <label>Password</label><input type="password" name="password" required>
+    <button type="submit">Login</button>
+  </form>
+  <p>New student? <a href="{{ url_for('register') }}">Register here</a></p>
+  <p style="font-size:12px;color:#6b7280">Admin demo: admin / admin123</p>
+</div>
+{% endblock %}

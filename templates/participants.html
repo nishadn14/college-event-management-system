@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block content %}
+<div class="card"><h2>Participants: {{ event.title }}</h2>
+<p>{{ event.event_date }} {{ event.event_time }} | {{ event.venue }} | {{ rows|length }} / {{ event.capacity }} registered</p>
+<div class="table-wrap"><table>
+  <tr><th>#</th><th>Name</th><th>USN</th><th>Email</th><th>Registered At</th></tr>
+  {% for r in rows %}<tr><td>{{ loop.index }}</td><td>{{ r.name }}</td><td>{{ r.usn }}</td><td>{{ r.email }}</td><td>{{ r.registered_at }}</td></tr>
+  {% else %}<tr><td colspan="5">No registrations yet.</td></tr>{% endfor %}
+</table></div>
+<a class="btn green" href="{{ url_for('export_participants', event_id=event.id) }}">⬇ Export CSV</a>
+<a class="btn gray" href="{{ url_for('admin_dashboard') }}">Back</a></div>
+{% endblock %}

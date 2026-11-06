@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% block content %}
+<div class="card"><h2>{{ mode }} Event</h2>
+<form method="post">
+  <label>Title</label><input name="title" value="{{ event.title or '' }}" required>
+  <label>Description</label><textarea name="description" rows="3">{{ event.description or '' }}</textarea>
+  <div class="row">
+    <div><label>Category</label><select name="category">
+      {% for c in categories %}<option {{ 'selected' if event.category==c }}>{{ c }}</option>{% endfor %}</select></div>
+    <div><label>Capacity</label><input type="number" min="1" name="capacity" value="{{ event.capacity or 100 }}" required></div>
+  </div>
+  <label>Venue</label><input name="venue" value="{{ event.venue or '' }}" required>
+  <div class="row">
+    <div><label>Date</label><input type="date" name="event_date" value="{{ event.event_date or '' }}" required></div>
+    <div><label>Time</label><input type="time" name="event_time" value="{{ event.event_time or '' }}" required></div>
+  </div>
+  <button type="submit">Save Event</button>
+  <a class="btn gray" href="{{ url_for('admin_dashboard') }}">Cancel</a>
+</form></div>
+{% endblock %}

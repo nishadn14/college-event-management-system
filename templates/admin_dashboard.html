@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block content %}
+<div class="stats">
+  <div class="stat"><b>{{ stats.events }}</b>Total Events</div>
+  <div class="stat"><b>{{ stats.upcoming }}</b>Upcoming</div>
+  <div class="stat"><b>{{ stats.students }}</b>Students</div>
+  <div class="stat"><b>{{ stats.registrations }}</b>Registrations</div>
+</div>
+<div class="card"><h2>Manage Events</h2>
+<a class="btn green" href="{{ url_for('event_new') }}" style="margin:0 0 12px">+ Add Event</a>
+<div class="table-wrap"><table>
+  <tr><th>Title</th><th>Category</th><th>Date</th><th>Venue</th><th>Seats</th><th>Actions</th></tr>
+  {% for e in events %}
+  <tr><td>{{ e.title }} {% if e.event_date < today %}<span class="badge past">Past</span>{% endif %}</td>
+    <td>{{ e.category }}</td><td>{{ e.event_date }} {{ e.event_time }}</td><td>{{ e.venue }}</td>
+    <td>{{ e.taken }} / {{ e.capacity }}</td>
+    <td>
+      <a class="btn gray" style="margin:0" href="{{ url_for('participants', event_id=e.id) }}">Participants</a>
+      <a class="btn" style="margin:0" href="{{ url_for('event_edit', event_id=e.id) }}">Edit</a>
+      <form method="post" class="inline" action="{{ url_for('event_delete', event_id=e.id) }}"
+            onsubmit="return confirm('Delete this event and its registrations?')">
+        <button class="danger" style="margin:0">Delete</button></form></td></tr>
+  {% else %}<tr><td colspan="6">No events yet.</td></tr>{% endfor %}
+</table></div></div>
+{% endblock %}

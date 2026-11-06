@@ -1,0 +1,32 @@
+{% extends "base.html" %}{% block content %}
+<h2>Upcoming Events</h2>
+<form method="get" class="filters">
+  <input name="q" placeholder="Search title or venue" value="{{ q }}">
+  <select name="category"><option value="">All categories</option>
+    {% for c in categories %}<option {{ 'selected' if c==cat }}>{{ c }}</option>{% endfor %}</select>
+  <button type="submit">Filter</button>
+</form>
+<div class="grid">
+{% for e in events %}
+  <div class="event">
+    <span class="badge">{{ e.category }}</span>
+    {% if e.event_date < today %}<span class="badge past">Completed</span>{% endif %}
+    <h3>{{ e.title }}</h3>
+    <p>{{ e.description }}</p>
+    <p>📅 {{ e.event_date }} &nbsp; ⏰ {{ e.event_time }}</p>
+    <p>📍 {{ e.venue }}</p>
+    <p>👥 {{ e.taken }} / {{ e.capacity }} registered</p>
+    {% if e.joined %}
+      <span class="badge ok">Registered ✔</span>
+      {% if e.event_date >= today %}
+      <form method="post" action="{{ url_for('cancel_registration', event_id=e.id) }}" class="inline">
+        <button class="danger">Cancel</button></form>{% endif %}
+    {% elif e.event_date < today %}
+    {% elif e.taken >= e.capacity %}<span class="badge full">Full</span>
+    {% else %}
+      <form method="post" action="{{ url_for('register_event', event_id=e.id) }}"><button>Register</button></form>
+    {% endif %}
+  </div>
+{% else %}<p>No events found.</p>{% endfor %}
+</div>
+{% endblock %}
